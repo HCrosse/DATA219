@@ -4,7 +4,7 @@ import seaborn as sns
 import re
 
 pokemon = pd.read_csv("Data/Pokemon/pokemon_species.csv")
-excel_file = pd.ExcelFile("Data/Dresses_Attribute_Sales/Attribute DataSet.xlsx")
+excel_file = pd.ExcelFile("Data/Dresses/Attribute DataSet.xlsx")
 dresses = excel_file.parse('Sheet1')
 narcissism = pd.read_csv("Data/NPI/data.csv")
 
