@@ -170,6 +170,16 @@ group = laureate_prizes.groupby(['Year', 'Gender']).sum() / laureate_prizes.grou
 pivot = pd.pivot_table(index='Year', columns='Gender', values='Share', data=group).fillna(0)
 ax = pivot.plot()
 ax.set_title("Share of Nobels Over Time")
+plt.tight_layout()
+plt.show()
+
+x = np.arange(5.13157894737, 586, 5.13157894737)
+group2 = laureate_prizes.groupby(['Year', 'Gender']).sum()
+pivot2 = pd.pivot_table(index='Year', columns='Gender', values='Share', data=group2).fillna(0).cumsum()
+pivot2['Total'] = x
+ax = pivot2.plot()
+ax.set_title("Total Nobels Over Time")
+plt.tight_layout()
 plt.show()
 
 # What is the avg share for each gender
