@@ -174,6 +174,7 @@ plt.show()
 
 # What is the avg share for each gender
 share_gender = sns.boxplot(x='Gender', y='Average Share', data=laureates)
+share_gender.set_title("Career Average Nobel Share")
 plt.tight_layout()
 plt.show()
 
