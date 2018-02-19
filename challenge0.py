@@ -2,6 +2,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import scipy.stats.stats
 import seaborn as sns
 
 # JSON Structure:
@@ -160,6 +161,8 @@ plt.tight_layout()
 plt.show()
 
 prize_category_bar = sns.countplot(x='Category', hue='Gender', data=laureate_prizes)
+for p in prize_category_bar.patches:
+    prize_category_bar.annotate('{0:g}'.format(p.get_height()), (p.get_x(), p.get_height()+2))
 plt.legend(loc='upper right')
 prize_category_bar.set(title='Nobel Prizes Won by Gender and Category', ylabel='Count')
 plt.tight_layout()
@@ -172,6 +175,10 @@ ax = pivot.plot()
 ax.set_title("Share of Nobels Over Time")
 plt.tight_layout()
 plt.show()
+
+pivot = pivot.reset_index()
+pivot.Year = pd.to_numeric(pivot.Year)
+print(scipy.stats.stats.pearsonr(pivot.Year, pivot.Female))
 
 x = np.arange(5.13157894737, 586, 5.13157894737)
 group2 = laureate_prizes.groupby(['Year', 'Gender']).sum()
