@@ -1,3 +1,5 @@
+__author__ = 'Harrison Crosse and Sarah Wessel'
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
