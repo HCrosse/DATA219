@@ -1,4 +1,5 @@
 import datetime
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import sqlite3
@@ -6,6 +7,7 @@ from keras.layers import Activation, Dense
 from keras.models import Sequential
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 
 con = sqlite3.connect("Data/Fires/Data/FPA_FOD_20170508.sqlite")
 df = pd.read_sql('select LATITUDE, LONGITUDE, OWNER_DESCR, DISCOVERY_TIME, CONT_TIME, DISCOVERY_DATE, CONT_DATE,'
@@ -70,5 +72,15 @@ model.compile(optimizer='rmsprop',
 model.fit(train, train_target, epochs=10, batch_size=100)
 score = model.evaluate(test, test_target, batch_size=100)
 
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #
+# Super simple k-NN
+
+neigh = KNeighborsClassifier()  # default K of 5 turned out to be good
+neigh.fit(train, train_target)
+
+k_pred = neigh.predict(test)
+k_accuracy = accuracy_score(test_target, k_pred)
+
 print(gnb_accuracy)  # 23.95% (+/- 10.6%)
 print(score)     # 46.61 (+/- 1.94%)
+print(k_accuracy)
