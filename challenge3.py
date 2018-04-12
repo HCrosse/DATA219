@@ -1,10 +1,11 @@
 import datetime
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import sqlite3
+from keras import callbacks
 from keras.layers import Activation, Dense
 from keras.models import Sequential
+from livelossplot import PlotLossesKeras
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -69,7 +70,10 @@ model.compile(optimizer='rmsprop',
               loss='categorical_crossentropy',
               metrics=['accuracy'],)
 
-model.fit(train, train_target, epochs=10, batch_size=100)
+tbCallBack = callbacks.TensorBoard(log_dir='./TensorBoard', histogram_freq=0, write_graph=True, write_images=True)
+
+model.fit(train, train_target, epochs=10, batch_size=100, validation_data=(test, test_target),
+          callbacks=[tbCallBack, PlotLossesKeras()])
 score = model.evaluate(test, test_target, batch_size=100)
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #
@@ -83,4 +87,4 @@ k_accuracy = accuracy_score(test_target, k_pred)
 
 print(gnb_accuracy)  # 23.95% (+/- 10.6%)
 print(score)     # 46.61 (+/- 1.94%)
-print(k_accuracy)
+print(k_accuracy)  # 40.43 (+/- 0.04%)
